@@ -2,3 +2,5 @@
 /notebooks/pytorch-yolox-object-detector/*
 /notebooks/.ipynb_checkpoints/*
 /notebooks/*.ttf
+/notebooks/*.jpg
+/notebooks/*.png
