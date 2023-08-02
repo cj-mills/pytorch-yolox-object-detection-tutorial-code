@@ -1,5 +1,5 @@
-# pytorch-yolox-object-detection-tutorial-code
-This repository contains the training code for my PyTorch YOLOX object detection tutorial.
+# Training YOLOX Models for Real-Time Object Detection With Pytorch
+This tutorial provides a step-by-step guide on training YOLOX object detection models using PyTorch to create a hand gesture detector. 
 
 
 
