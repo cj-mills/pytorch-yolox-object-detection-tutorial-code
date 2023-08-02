@@ -1,0 +1,4 @@
+/notebooks/pretrained_checkpoints/*
+/notebooks/pytorch-yolox-object-detector/*
+/notebooks/.ipynb_checkpoints/*
+/notebooks/*.ttf
