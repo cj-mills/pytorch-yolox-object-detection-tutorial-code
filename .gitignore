@@ -5,3 +5,4 @@
 /notebooks/*.jpg
 /notebooks/*.png
 /notebooks/*.onnx
+/notebooks/__pycache__/*
