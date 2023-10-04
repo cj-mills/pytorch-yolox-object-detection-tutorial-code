@@ -2,7 +2,7 @@ from torch.utils.data import Dataset
 import torch
 import torchvision
 torchvision.disable_beta_transforms_warning()
-from torchvision.datapoints import BoundingBox
+from torchvision.tv_tensors import BoundingBoxes
 
 
 from PIL import Image
