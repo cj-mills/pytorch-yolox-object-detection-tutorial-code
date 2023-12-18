@@ -83,8 +83,8 @@ class HagridDataset(Dataset):
         
         # Convert bounding box coordinates from [xmin, ymin, width, height] to [xmin, ymin, xmax, ymax]
         bbox_tensor = torchvision.ops.box_convert(torch.Tensor(bbox_list), 'xywh', 'xyxy')
-        # Create a BoundingBox object with the bounding boxes
-        boxes = BoundingBox(bbox_tensor, format='xyxy', canvas_size=image.size[::-1])
+        # Create a BoundingBoxes object with the bounding boxes
+        boxes = BoundingBoxes(bbox_tensor, format='xyxy', canvas_size=image.size[::-1])
         # Convert the class labels to indices
         labels = torch.Tensor([self._class_to_idx[label] for label in annotation.labels])
         return image, {'boxes': boxes, 'labels': labels}
