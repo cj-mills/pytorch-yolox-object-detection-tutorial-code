@@ -8,6 +8,7 @@ from torchvision.tv_tensors import BoundingBoxes
 from PIL import Image
 import numpy as np
 
+
 class HagridDataset(Dataset):
     """
     This class represents a PyTorch Dataset for a collection of images and their annotations.
@@ -63,7 +64,7 @@ class HagridDataset(Dataset):
             image, target = self._transforms(image, target)
         
         return image, target
-
+    
     def _load_image_and_target(self, annotation):
         """
         Load an image and its target (bounding boxes and labels).
@@ -76,19 +77,18 @@ class HagridDataset(Dataset):
         """
         # Retrieve the file path of the image
         filepath = self._img_dict[annotation.name]
-        # Open the image file and convert it to RGB
-        image = Image.open(filepath).convert('RGB')
+        # Read the image file into an RGB tensor
+        image = torchvision.io.read_image(str(filepath), mode=torchvision.io.ImageReadMode.RGB)
         # Calculate the bounding boxes in the image size scale
-        bbox_list = np.array([bbox*(image.size*2) for bbox in annotation.bboxes])
+        bbox_list = np.array([bbox*(image.shape[1:][::-1]*2) for bbox in annotation.bboxes])
         
         # Convert bounding box coordinates from [xmin, ymin, width, height] to [xmin, ymin, xmax, ymax]
         bbox_tensor = torchvision.ops.box_convert(torch.Tensor(bbox_list), 'xywh', 'xyxy')
         # Create a BoundingBoxes object with the bounding boxes
-        boxes = BoundingBoxes(bbox_tensor, format='xyxy', canvas_size=image.size[::-1])
+        boxes = BoundingBoxes(bbox_tensor, format='xyxy', canvas_size=image.shape[1:])
         # Convert the class labels to indices
         labels = torch.Tensor([self._class_to_idx[label] for label in annotation.labels])
         return image, {'boxes': boxes, 'labels': labels}
-    
 
 
 def tuple_batch(batch):

@@ -36,3 +36,9 @@
 *.m4v
 *.3gp
 *.3g2
+
+
+# Temporary
+/notebooks/pytorch-yolox-object-detector-onnx-export-Copy1.ipynb
+/notebooks/pytorch-yolox-object-detector-training (copy).ipynb
+/notebooks/pytorch-yolox-object-detector-training-labelme.ipynb
