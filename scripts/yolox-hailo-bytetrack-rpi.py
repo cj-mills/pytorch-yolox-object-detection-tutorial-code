@@ -7,7 +7,7 @@ Users can optionally provide file paths for the HEF model and JSON colormap file
 If not provided, the script will search for these files in the current directory.
 
 Usage:
-    python yolox-hailo-bytetrack-rpi.py [--hef_path HEF_PATH] [--colormap_path COLORMAP_PATH]
+    python yolox-hailo-bytetrack-rpi.py [--hef_path HEF_PATH] [--colormap_path COLORMAP_PATH] [--list_modes] [--camera_mode CAMERA_MODE]
 
 Press 'q' to quit the script.
 """
@@ -16,7 +16,6 @@ import argparse
 import json
 import sys
 import time
-import urllib.request
 from pathlib import Path
 from typing import NamedTuple, Optional, Tuple
 
@@ -370,6 +369,8 @@ def main():
     parser = argparse.ArgumentParser(description="Object Detection and Tracking Script")
     parser.add_argument('--hef_path', type=str, help='Path to the HEF model file')
     parser.add_argument('--colormap_path', type=str, help='Path to the JSON colormap file')
+    parser.add_argument('--list_modes', action='store_true', help='List available camera modes and exit')
+    parser.add_argument('--camera_mode', type=int, default=0, help='Index of the camera mode to use')
     args = parser.parse_args()
 
     # Set the path to the checkpoint directory
@@ -454,13 +455,20 @@ def main():
     # Create a Picamera2 object
     picam2 = Picamera2()
 
-    # Print available sensor modes
-    print("Available sensor modes:")
-    for i, mode in enumerate(picam2.sensor_modes):
-        print(f"Mode {i}: {mode['size']} at {mode['fps']}fps")
+    # If --list_modes is specified, list the available sensor modes and exit
+    if args.list_modes:
+        print("Available sensor modes:")
+        for i, mode in enumerate(picam2.sensor_modes):
+            print(f"Mode {i}: {mode['size']} at {mode['fps']}fps")
+        sys.exit(0)
 
-    # Choose a mode (using the first mode)
-    chosen_mode = picam2.sensor_modes[0]
+    # Validate the camera_mode index
+    if args.camera_mode < 0 or args.camera_mode >= len(picam2.sensor_modes):
+        print(f"Error: Invalid camera mode index {args.camera_mode}.")
+        sys.exit(1)
+
+    # Choose the camera mode based on user input
+    chosen_mode = picam2.sensor_modes[args.camera_mode]
 
     # Create a configuration using the chosen mode
     config = picam2.create_preview_configuration(
