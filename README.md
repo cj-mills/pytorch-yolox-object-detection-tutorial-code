@@ -1,4 +1,8 @@
 # Training YOLOX Models for Real-Time Object Detection With Pytorch
+
+> [!WARNING]
+> **This repository is outdated and no longer maintained.** It was last updated in April 2025, and its code may not run with current versions of its dependencies. It is kept as it was for reference; nothing in it is being fixed.
+
 This tutorial provides a step-by-step guide on training YOLOX object detection models using PyTorch to create a hand gesture detector. 
 
 
